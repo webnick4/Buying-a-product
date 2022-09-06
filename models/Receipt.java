@@ -1,6 +1,7 @@
 package lesson19.models;
 
 public class Receipt {
-    private double sum;
-    private double discount;
+    private double totalSum;
+    private double totalDiscount;
+    private String productName;
 }

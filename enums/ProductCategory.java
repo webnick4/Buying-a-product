@@ -1,26 +1,20 @@
 package lesson19.enums;
 
 public enum ProductCategory {
-    MILK("Молочные продукты", 1),
-    FRUIT("Фрукты", 2),
-    VEGETABLES("Овощи", 3),
-    DRINKABLES("Напитки", 4),
-    FORTEA("К чаю", 5),
-    MEAT("Мясное", 6);
+    MILK(1),
+    FRUIT(2),
+    VEGETABLES(3),
+    DRINKABLES(4),
+    FORTEA(5),
+    MEAT(6);
 
-    private final String name;
-    private final int number;
+    private final int val;
 
-    ProductCategory(String name, int number) {
-        this.name = name;
-        this.number = number;
+    ProductCategory(int val) {
+        this.val = val;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getNumber() {
-        return number;
+    public int getVal() {
+        return val;
     }
 }

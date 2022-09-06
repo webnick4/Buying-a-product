@@ -1,11 +1,42 @@
 package lesson19.service.impl;
 
 import jdk.dynalink.Operation;
+import lesson19.enums.Measure;
 import lesson19.enums.ProductCategory;
+import lesson19.models.*;
 
 public class OperationImpl implements Operation {
 
-    ProductCategory[] getCategories(){
+    Sugar sugar = new Sugar("Сахар", 45, Measure.KG, ProductCategory.FORTEA);
+    Milk milk = new Milk("Молоко", 65, Measure.LITER, ProductCategory.MILK);
+
+    Product[] products = {sugar, milk};
+
+    public void getCategories(){
+        for (ProductCategory item : ProductCategory.values()) {
+            System.out.println(item);
+        }
+    }
+
+    public Product[] getProductByCategory(String productCategory){
+        Product[] result = new Product[100];
+        int i = 0;
+
+        for (Product product : products) {
+            if (product.getProductCategory().equals(ProductCategory.valueOf(productCategory))) {
+                result[i] = product;
+                i++;
+            }
+        }
+
+        return result;
+    }
+
+    public Cashier getCashier(String name) {
+        return null;
+    }
+
+    public Receipt getReceipt(Order order) {
         return null;
     }
 }
