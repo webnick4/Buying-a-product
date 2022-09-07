@@ -43,4 +43,7 @@ public class OperationImpl implements Operation {
     public Receipt getReceipt(Order order) {
         return null;
     }
+
+
 }
+
