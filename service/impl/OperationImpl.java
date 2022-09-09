@@ -7,10 +7,15 @@ import lesson19.models.*;
 
 public class OperationImpl implements Operation {
 
-    Sugar sugar = new Sugar("Сахар", 45, Measure.KG, ProductCategory.FORTEA);
-    Milk milk = new Milk("Молоко", 65, Measure.LITER, ProductCategory.MILK);
+    Product sugar = new Sugar("Сахар", 45, Measure.KG, ProductCategory.FORTEA);
+    Product milk = new Milk("Молоко", 65, Measure.LITER, ProductCategory.MILK);
 
     Product[] products = {sugar, milk};
+
+    Cashier ludmila = new Cashier("Людмила", "user1", 18);
+    Cashier galina = new Cashier("Галина", "user2", 23);
+
+    Cashier[] cashiers = {ludmila, galina};
 
     @Override
     public void getCategories(){
@@ -30,18 +35,52 @@ public class OperationImpl implements Operation {
                 i++;
             }
         }
-
         return result;
     }
 
     @Override
-    public Cashier getCashier(String name) {
+    public Product getProductByName(String productName) {
+
+        for (Product product : products) {
+            if (product == null) break;
+
+            if (product.getName().equals(productName)){
+                return product;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Cashier getCashierByName(String name) {
+        for (Cashier cashier : cashiers) {
+            if (cashier.getName().equals(name)) {
+                return  cashier;
+            }
+        }
         return null;
     }
 
     @Override
     public Receipt getReceipt(Order order) {
-        return null;
+
+        ReceiptDetails[] receiptDetails = new ReceiptDetails[10];
+        double totalSum = 0;
+        double totalDiscount = 0;
+        int i = 0;
+
+        Details[] details = order.getDetails();
+        for (Details item : details) {
+            if (item != null) {
+                receiptDetails[i] = new ReceiptDetails(item.getName().getName(), item.getName().getCost());
+                totalSum = item.getName().getCost() * item.getAmount();
+                totalDiscount += item.getDiscount();
+                i++;
+            }
+
+        }
+
+        return new Receipt(totalSum, totalDiscount, receiptDetails);
     }
 
 

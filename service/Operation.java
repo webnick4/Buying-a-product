@@ -8,9 +8,11 @@ import lesson19.models.Receipt;
 public interface Operation {
     Receipt getReceipt(Order order);
 
-    Cashier getCashier(String name);
+    Cashier getCashierByName(String name);
 
     Product[] getProductByCategory(String productCategory);
 
     void getCategories();
+
+    Product getProductByName(String productName);
 }

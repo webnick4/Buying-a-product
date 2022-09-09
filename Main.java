@@ -1,13 +1,9 @@
 package lesson19;
 
-import lesson19.models.Cashier;
-import lesson19.models.Details;
-import lesson19.models.Order;
-import lesson19.models.Product;
+import lesson19.models.*;
 import lesson19.service.Operation;
 import lesson19.service.impl.OperationImpl;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -18,7 +14,7 @@ public class Main {
         Operation operation = new OperationImpl();
 
         System.out.println("Добро пожаловать!");
-        Details[] details = new Details[100];
+        Details[] details = new Details[10];
         int counter = 0;
 
         while (true) {
@@ -30,12 +26,13 @@ public class Main {
             Product[] products = operation.getProductByCategory(category);
             for (Product product : products) {
                 if (product != null) {
-                    System.out.println(product.getName());
+                    product.getInfo();
                 }
             }
 
             System.out.println("Введите продукт");
             String productName = scanner.next();
+            Product product = operation.getProductByName(productName);
 
             System.out.println("Введите количество продукта");
             double amount = scanner.nextDouble();
@@ -43,17 +40,7 @@ public class Main {
             System.out.println("Введите скидку");
             double discount = scanner.nextDouble();
 
-
-            for (Product product : products) {
-                if (product == null) break;
-
-                if (product.getName().equals(productName)){
-                     details[counter] = new Details(product,amount, discount);
-                }
-            }
-
-
-            System.out.println(Arrays.toString(details));
+            details[counter] = new Details(product, amount, discount);
 
 
             counter++;
@@ -65,9 +52,37 @@ public class Main {
             System.out.println();
         }
 
+        for (Details item : details) {
+            if (item != null) {
+                System.out.println(item.getName().getName());
+            }
+        }
 
-//        Cashier cashier = new Cashier();
-//        operation.getReceipt(new Order(cashier, details));
+        System.out.println("Выберите кассира");
+        String cashier = scanner.next();
+        Cashier selectedCashier = operation.getCashierByName(cashier);
+
+        Order order = new Order();
+        order.setDetails(details);
+        order.setCashier(selectedCashier);
+
+        System.out.println();
+        System.out.println("Ваш кассир: " + order.getCashier().getName());
+        System.out.println("---------------------------------------");
+        System.out.println("Продукт                      Цена      ");
+        System.out.println("- - - - - - - - - - - - - - - - - - - -");
+        Receipt receipt = operation.getReceipt(order);
+        for (ReceiptDetails item : receipt.getReceiptDetails()) {
+            if (item != null) {
+                System.out.println(item.getProductName() + "                       " + item.getSum());
+            }
+        }
+
+        System.out.println("---------------------------------------");
+        System.out.println("Общая сумма :                " + receipt.getTotalSum());
+        System.out.println("Скидка :                     " + receipt.getTotalDiscount());
+        System.out.println("- - - - - - - - - - - - - - - - - - - -");
+        System.out.println("Сумма к оплате :             " + (receipt.getTotalSum() - (receipt.getTotalSum() / receipt.getTotalDiscount())));
 
     }
 }

@@ -50,4 +50,8 @@ public abstract class Product {
     public void setProductCategory(ProductCategory productCategory) {
         this.productCategory = productCategory;
     }
+
+    public void getInfo() {
+        System.out.println("Продукт: " + this.name + " - Стоимость: " + this.cost);
+    }
 }
