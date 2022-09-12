@@ -52,13 +52,14 @@ public class Main {
             System.out.println();
         }
 
+        System.out.println("Выбрали продукты:");
         for (Details item : details) {
             if (item != null) {
                 System.out.println(item.getName().getName());
             }
         }
 
-        System.out.println("Выберите кассира");
+        System.out.println("\nВыберите кассира");
         String cashier = scanner.next();
         Cashier selectedCashier = operation.getCashierByName(cashier);
 
@@ -82,7 +83,7 @@ public class Main {
         System.out.println("Общая сумма :                " + receipt.getTotalSum());
         System.out.println("Скидка :                     " + receipt.getTotalDiscount());
         System.out.println("- - - - - - - - - - - - - - - - - - - -");
-        System.out.println("Сумма к оплате :             " + (receipt.getTotalSum() - (receipt.getTotalSum() / receipt.getTotalDiscount())));
+        System.out.println("Сумма к оплате :             " + (receipt.getTotalSum() - receipt.getTotalDiscount()));
 
     }
 }

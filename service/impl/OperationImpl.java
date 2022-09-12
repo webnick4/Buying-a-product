@@ -73,8 +73,8 @@ public class OperationImpl implements Operation {
         for (Details item : details) {
             if (item != null) {
                 receiptDetails[i] = new ReceiptDetails(item.getName().getName(), item.getName().getCost());
-                totalSum = item.getName().getCost() * item.getAmount();
-                totalDiscount += item.getDiscount();
+                totalSum += (item.getName().getCost() * item.getAmount());
+                totalDiscount += item.getDiscount() == 0 ? 0 : totalSum / item.getDiscount();
                 i++;
             }
 
