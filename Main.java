@@ -1,9 +1,9 @@
 package lesson19;
 
+import lesson19.exceptions.MyException;
 import lesson19.models.*;
 import lesson19.service.Operation;
 import lesson19.service.impl.OperationImpl;
-
 import java.util.Scanner;
 
 public class Main {
@@ -14,6 +14,7 @@ public class Main {
         Operation operation = new OperationImpl();
 
         System.out.println("Добро пожаловать!");
+        boolean isAdded = true;
         Details[] details = new Details[10];
         int counter = 0;
 
@@ -23,21 +24,43 @@ public class Main {
             operation.getCategories();
             String category = scanner.next();
 
-            Product[] products = operation.getProductByCategory(category);
-            for (Product product : products) {
-                if (product != null) {
-                    product.getInfo();
-                }
+            Product[] products;
+
+            try {
+                products = operation.getProductByCategory(category);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                continue;
             }
 
-            System.out.println("Введите продукт");
-            String productName = scanner.next();
-            Product product = operation.getProductByName(productName);
+            
+            isAdded = true;
+            String productName;
+            Product product = null;
+            
+            while (isAdded) {
+                for (Product item : products) {
+                    if (item != null) {
+                        item.getInfo();
+                    }
+                }
 
-            System.out.println("Введите количество продукта");
+                System.out.print("Выберите продукт: ");
+                productName = scanner.next();
+                product = operation.getProductByName(productName);
+
+                if (product != null) {
+                    isAdded = false;
+                    continue;
+                }
+                System.out.println("\nВыберите продукт правильно");
+            }
+
+
+            System.out.println("\nВведите количество");
             double amount = scanner.nextDouble();
 
-            System.out.println("Введите скидку");
+            System.out.println("\nВведите скидку");
             double discount = scanner.nextDouble();
 
             details[counter] = new Details(product, amount, discount);
@@ -59,9 +82,29 @@ public class Main {
             }
         }
 
-        System.out.println("\nВыберите кассира");
-        String cashier = scanner.next();
-        Cashier selectedCashier = operation.getCashierByName(cashier);
+        isAdded = true;
+        String cashier;
+        Cashier selectedCashier = null;
+        
+        while (isAdded) {
+            try {
+                System.out.println("\nВыберите кассира");
+                operation.printExistCashiers();
+
+                cashier = scanner.next();
+                selectedCashier = operation.getCashierByName(cashier);
+
+                if (selectedCashier == null) {
+                    throw new MyException("\nВыберите кассира из списка");
+                }
+                
+                isAdded = false;
+            } catch (MyException e) {
+                System.out.println(e.getMessage());                
+            }
+        }
+        
+        
 
         Order order = new Order();
         order.setDetails(details);

@@ -1,5 +1,6 @@
 package lesson19.service.impl;
 
+import lesson19.exceptions.MyException;
 import lesson19.service.Operation;
 import lesson19.enums.Measure;
 import lesson19.enums.ProductCategory;
@@ -29,26 +30,38 @@ public class OperationImpl implements Operation {
         Product[] result = new Product[100];
         int i = 0;
 
-        for (Product product : products) {
-            if (product.getProductCategory().equals(ProductCategory.valueOf(productCategory))) {
-                result[i] = product;
-                i++;
+        try {
+            for (Product product : products) {
+                if (product.getProductCategory().equals(ProductCategory.valueOf(productCategory))) {
+                    result[i] = product;
+                    i++;
+                }
             }
+            return result;
+
+        } catch (RuntimeException e) {
+            System.out.println("Произошла ошибка в момент выполнения метода getProductByCategory");
+            throw new RuntimeException(e.getMessage());
         }
-        return result;
     }
 
     @Override
     public Product getProductByName(String productName) {
+            for (Product product : products) {
+                if (product == null) break;
 
-        for (Product product : products) {
-            if (product == null) break;
-
-            if (product.getName().equals(productName)){
-                return product;
+                if (product.getName().equals(productName)) {
+                    return product;
+                }
             }
+            return null;
+    }
+
+    @Override
+    public void printExistCashiers() {
+        for (Cashier cashier : cashiers) {
+            cashier.getInfo();
         }
-        return null;
     }
 
     @Override

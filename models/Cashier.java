@@ -37,4 +37,8 @@ public class Cashier {
     public void setAge(int age) {
         this.age = age;
     }
+
+    public void getInfo() {
+        System.out.println("Имя кассира: " + getName());
+    }
 }
