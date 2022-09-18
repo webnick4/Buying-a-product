@@ -14,7 +14,7 @@ public class Main {
         Operation operation = new OperationImpl();
 
         System.out.println("Добро пожаловать!");
-        boolean isAdded = true;
+        boolean isAdded;
         Details[] details = new Details[10];
         int counter = 0;
 
@@ -70,7 +70,7 @@ public class Main {
 
             System.out.println("Продолжить покупку? Y/N");
             String answer = scanner.next();
-            if (answer.toUpperCase().equals("NO") || answer.toUpperCase().equals("N")) break;
+            if (answer.equalsIgnoreCase("NO") || answer.equalsIgnoreCase("N")) break;
 
             System.out.println();
         }
@@ -103,7 +103,6 @@ public class Main {
                 System.out.println(e.getMessage());                
             }
         }
-        
         
 
         Order order = new Order();
